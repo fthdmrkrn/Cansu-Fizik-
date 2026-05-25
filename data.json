@@ -5,17 +5,37 @@
     "bio": "📚 11. Sınıf Fizik\n⚡ Konular, formüller, ipuçları\n🎯 Sınava hazırlık\n👇 Tüm üniteler aşağıda",
     "avatar": "images/profile/avatar.jpg",
     "stats": {
-      "posts": 12,
+      "posts": 10,
       "followers": "11.K",
       "following": 42
     }
   },
   "stories": [
-    { "id": "s1", "title": "Yeni!", "cover": "images/stories/yeni.jpg" },
-    { "id": "s2", "title": "Formüller", "cover": "images/stories/formuller.jpg" },
-    { "id": "s3", "title": "Sınav", "cover": "images/stories/sinav.jpg" },
-    { "id": "s4", "title": "Deneyler", "cover": "images/stories/deneyler.jpg" },
-    { "id": "s5", "title": "Tarih", "cover": "images/stories/tarih.jpg" }
+    {
+      "id": "s1",
+      "title": "Yeni!",
+      "cover": "images/stories/yeni.jpg"
+    },
+    {
+      "id": "s2",
+      "title": "Formüller",
+      "cover": "images/stories/formuller.jpg"
+    },
+    {
+      "id": "s3",
+      "title": "Sınav",
+      "cover": "images/stories/sinav.jpg"
+    },
+    {
+      "id": "s4",
+      "title": "Deneyler",
+      "cover": "images/stories/deneyler.jpg"
+    },
+    {
+      "id": "s5",
+      "title": "Tarih",
+      "cover": "images/stories/tarih.jpg"
+    }
   ],
   "topics": [
     {
@@ -31,7 +51,9 @@
       "title": "Elektrik ve Manyetizma",
       "cover": "images/topics/elektrik-manyetizma.jpg",
       "status": "active",
-      "subtopics": ["alternatif-akim"]
+      "subtopics": [
+        "alternatif-akim"
+      ]
     },
     {
       "id": "alternatif-akim",
@@ -40,6 +62,13 @@
       "cover": "images/topics/alternatif-akim.jpg",
       "status": "active",
       "postId": "post-aa-1"
+    },
+    {
+      "id": "transformator",
+      "unit": "2.6",
+      "title": "Transformatörler",
+      "status": "active",
+      "postId": "post-tr-1"
     }
   ],
   "posts": [
@@ -90,10 +119,22 @@
           "leftLabel": "DC (Edison)",
           "rightLabel": "AC (Tesla)",
           "rows": [
-            { "left": "Yön sabit", "right": "Yön değişir" },
-            { "left": "Kısa mesafe", "right": "Uzun mesafe" },
-            { "left": "Pahalı iletim", "right": "Ucuz iletim" },
-            { "left": "Pil, akü, telefon", "right": "Priz, buzdolabı, motor" }
+            {
+              "left": "Yön sabit",
+              "right": "Yön değişir"
+            },
+            {
+              "left": "Kısa mesafe",
+              "right": "Uzun mesafe"
+            },
+            {
+              "left": "Pahalı iletim",
+              "right": "Ucuz iletim"
+            },
+            {
+              "left": "Pil, akü, telefon",
+              "right": "Priz, buzdolabı, motor"
+            }
           ]
         },
         {
@@ -183,14 +224,42 @@
           "type": "tableData",
           "title": "Dünyada Şebeke Değerleri",
           "icon": "🌍",
-          "headers": ["Ülke", "Gerilim (V)", "Frekans (Hz)"],
+          "headers": [
+            "Ülke",
+            "Gerilim (V)",
+            "Frekans (Hz)"
+          ],
           "rows": [
-            ["🇹🇷 Türkiye", "220", "50"],
-            ["🇺🇸 ABD", "120", "60"],
-            ["🇯🇵 Japonya", "100", "50-60"],
-            ["🇩🇪 Almanya", "230-400", "50"],
-            ["🇬🇧 İngiltere", "230", "50"],
-            ["🇨🇳 Çin", "220", "50"]
+            [
+              "🇹🇷 Türkiye",
+              "220",
+              "50"
+            ],
+            [
+              "🇺🇸 ABD",
+              "120",
+              "60"
+            ],
+            [
+              "🇯🇵 Japonya",
+              "100",
+              "50-60"
+            ],
+            [
+              "🇩🇪 Almanya",
+              "230-400",
+              "50"
+            ],
+            [
+              "🇬🇧 İngiltere",
+              "230",
+              "50"
+            ],
+            [
+              "🇨🇳 Çin",
+              "220",
+              "50"
+            ]
           ]
         },
         {
@@ -319,9 +388,18 @@
           "leftLabel": "DC'de",
           "rightLabel": "AC'de",
           "rows": [
-            { "left": "R: Direnç gösterir", "right": "R: Aynı direnç" },
-            { "left": "L: Akım geçirir", "right": "L: Xₗ direnci" },
-            { "left": "C: Akım geçirmez", "right": "C: X꜀ direnci" }
+            {
+              "left": "R: Direnç gösterir",
+              "right": "R: Aynı direnç"
+            },
+            {
+              "left": "L: Akım geçirir",
+              "right": "L: Xₗ direnci"
+            },
+            {
+              "left": "C: Akım geçirmez",
+              "right": "C: X꜀ direnci"
+            }
           ]
         },
         {
@@ -455,6 +533,289 @@
           "icon": "🤔",
           "question": "İnvertörün çalışma ilkesinden yola çıkarak AC'den DC elde etmenin mümkün olup olmadığını açıkla.",
           "hint": "İpucu: Doğrultucu devreleri..."
+        }
+      ]
+    },
+    {
+      "id": "post-tr-1",
+      "topic": "Transformatörler",
+      "topicId": "transformator",
+      "caption": "⚡ KABLOSUZ GÜÇ TRANSFERİ ⚡\n\nTesla bunu 1 asır önce hayal etti! Bugün telefonuzu masaya koyunca şarj olması tesadüf değil 😮 Kaydır ➡️\n\n#fizik11 #transformatör #tesla #kablosuz",
+      "likes": 1456,
+      "timeAgo": "6 saat önce",
+      "slides": [
+        {
+          "type": "cover",
+          "title": "KABLOSUZ GÜÇ TRANSFERİ",
+          "subtitle": "Tesla'nın 1 asırlık hayali",
+          "emoji": "⚡",
+          "tagline": "Kablosuz şarj nasıl çalışır?"
+        },
+        {
+          "type": "story",
+          "title": "Tesla'nın Deneyi 🧪",
+          "icon": "🌩️",
+          "text": "1899'da Tesla, Kolorado'da 61 metre yüksekliğinde bir direğe dev bakır bir küre yerleştirdi. 150 kHz frekansla rezonansa tabi tuttu. Amacı: tüm dünyaya kablosuz elektrik iletmek!",
+          "fact": "300 kW güçle beslendi — devasa bir enerji!"
+        },
+        {
+          "type": "content",
+          "title": "Peki Başardı mı?",
+          "icon": "🤔",
+          "points": [
+            "Küre üzerinde 100 MV enerji potansiyeli üretti",
+            "Ama enerjinin ne kadarının uzağa gittiği bilinmiyor",
+            "Finansman kesildi, deney yarım kaldı",
+            "Ama fikri yaşamaya devam etti! 💡"
+          ]
+        },
+        {
+          "type": "content",
+          "title": "Bugün Kablosuz Şarj",
+          "icon": "📱",
+          "points": [
+            "Telefonunuzu masaya koyunca şarj olması aynı prensip",
+            "İki bobin arasında manyetik alan ile enerji aktarımı",
+            "Rezonans frekansı eşleşince transfer maksimum olur",
+            "Tesla'nın hayali cebimizde! 🎉"
+          ]
+        },
+        {
+          "type": "question",
+          "title": "DÜŞÜN BAKALIM",
+          "icon": "🤔",
+          "question": "Tesla, deneyinde tasarladığı sisteme neden ihtiyaç duymuştur?",
+          "hint": "İpucu: Kablo maliyeti + uzak mesafe iletimi"
+        }
+      ]
+    },
+    {
+      "id": "post-tr-2",
+      "topic": "Transformatörler",
+      "topicId": "transformator",
+      "caption": "🔄 TRANSFORMATÖR NEDİR? 🔄\n\nEvindeki şarj aleti, santralden evine gelen elektrik... hepsinin arkasında transformatör var! 👇\n\n#fizik11 #transformatör #trafo",
+      "likes": 987,
+      "timeAgo": "8 saat önce",
+      "slides": [
+        {
+          "type": "cover",
+          "title": "TRANSFORMATÖR",
+          "subtitle": "Gerilimi yükselt ya da alçalt",
+          "emoji": "🔄",
+          "tagline": "Evindeki her prizin arkasında var!"
+        },
+        {
+          "type": "content",
+          "title": "Transformatör Nedir?",
+          "icon": "🔧",
+          "points": [
+            "AC gerilimini yükseltmek veya alçaltmak için kullanılır",
+            "İki bobinden oluşur: primer (giriş) ve sekonder (çıkış)",
+            "İkisi de demir bir çekirdeğe sarılıdır",
+            "Kısaca: trafo olarak da bilinir 😊"
+          ]
+        },
+        {
+          "type": "content",
+          "title": "Nasıl Çalışır?",
+          "icon": "🌀",
+          "points": [
+            "Primer bobine AC uygulanır → değişen manyetik akı oluşur",
+            "Manyetik akı demir çekirdek ile sekonder bobine taşınır",
+            "Sekonder bobinde indüksiyon EMK'sı oluşur",
+            "Sadece AC ile çalışır! DC'de manyetik akı değişmez 🚫"
+          ]
+        },
+        {
+          "type": "content",
+          "title": "Temel Formül 📐",
+          "icon": "📐",
+          "points": [
+            "Np/Ns = Vp/Vs bağıntısı geçerlidir",
+            "Np: primer sarım sayısı, Ns: sekonder sarım sayısı",
+            "Vp: primer gerilim, Vs: sekonder gerilim",
+            "İdeal trafoda güç korunur: Vp × Ip = Vs × Is"
+          ]
+        },
+        {
+          "type": "comparison",
+          "title": "Yükseltici mi? Alçaltıcı mı?",
+          "icon": "⚖️",
+          "leftLabel": "Yükseltici (Np < Ns)",
+          "rightLabel": "Alçaltıcı (Np > Ns)",
+          "rows": [
+            {
+              "left": "Vs > Vp",
+              "right": "Vs < Vp"
+            },
+            {
+              "left": "Akım azalır",
+              "right": "Akım artar"
+            },
+            {
+              "left": "Santral → İletim hattı",
+              "right": "İletim hattı → Ev"
+            },
+            {
+              "left": "kV mertebesine çıkar",
+              "right": "220 V'a düşer"
+            }
+          ]
+        },
+        {
+          "type": "story",
+          "title": "İdeal Transformatör",
+          "icon": "💯",
+          "text": "Enerji kaybının olmadığı transformatörlere ideal transformatör denir. Verim = %100. Gerçekte ısınma kayıpları olur, verim %100 değildir. Modern transformatörler %98-99 verime ulaşabilir!",
+          "fact": "Verim = (Vs × Is) / (Vp × Ip) × 100"
+        },
+        {
+          "type": "question",
+          "title": "DÜŞÜN BAKALIM",
+          "icon": "🤔",
+          "question": "Primer bobinine alternatif akım yerine doğru akım kaynağı bağlandığında transformatör nasıl davranır?",
+          "hint": "İpucu: DC'de manyetik akı değişmez..."
+        }
+      ]
+    },
+    {
+      "id": "post-tr-3",
+      "topic": "Transformatörler",
+      "topicId": "transformator",
+      "caption": "🏭 SANTRALDEN EVİNİZE 🏭\n\nElektrik santralden çıkıp evinize gelene kadar kaç transformatörden geçiyor? Cevap şaşırtıcı! 👇\n\n#fizik11 #elektrikşebekesi #transformatör",
+      "likes": 1203,
+      "timeAgo": "1 gün önce",
+      "slides": [
+        {
+          "type": "cover",
+          "title": "SANTRALDEN EVİNİZE",
+          "subtitle": "Elektriğin yolculuğu",
+          "emoji": "🏭",
+          "tagline": "Kaç transformatörden geçiyor?"
+        },
+        {
+          "type": "content",
+          "title": "Neden Yüksek Voltaj?",
+          "icon": "⚡",
+          "points": [
+            "Uzun mesafede iletimde tel direnci ısı enerjisine dönüşür",
+            "Bu kaybı azaltmak için akım düşük tutulmalı",
+            "Güç = V × I sabit → V yükseltilirse I düşer",
+            "Bu yüzden iletim hatlarında binlerce volt kullanılır!"
+          ]
+        },
+        {
+          "type": "story",
+          "title": "Elektriğin Yolculuğu 🗺️",
+          "icon": "🔌",
+          "text": "Santral → Gerilim yükseltici trafo (kV'a çıkar) → Uzun mesafe iletim hattı → Gerilim alçaltıcı trafo (220V'a düşer) → Eviniz! Santral çıkışı bazen 400.000 V'a kadar çıkar!",
+          "fact": "Her köşe başındaki metal kutular birer trafodur!"
+        },
+        {
+          "type": "content",
+          "title": "Adaptörünüzde Trafo Var!",
+          "icon": "📱",
+          "points": [
+            "Telefon şarj aleti içinde transformatör + doğrultucu var",
+            "220 V AC → Düşük gerilim AC → DC'ye çevrilir",
+            "Dizüstü bilgisayar adaptörleri de aynı prensipte",
+            "Şarj aleti ısınmasının sebebi enerji kaybıdır 🔥"
+          ]
+        },
+        {
+          "type": "question",
+          "title": "DÜŞÜN BAKALIM",
+          "icon": "🤔",
+          "question": "Santrallerde üretilen elektrik enerjisinin evlere ulaşması sürecinde transformatörlerin kullanım amaçlarını açıklayın.",
+          "hint": "İpucu: İletim kaybı azaltma + gerilim uyumu"
+        }
+      ]
+    },
+    {
+      "id": "post-tr-4",
+      "topic": "Transformatörler",
+      "topicId": "transformator",
+      "caption": "📝 2. ÜNİTE SONU ÖZET 📝\n\nTüm kilit kavramlar tek postada! Sınav tuzakları dahil 😈 Kaydır ➡️\n\n#fizik11 #özet #sınavhazırlık #elektrik #manyetizma",
+      "likes": 2341,
+      "timeAgo": "2 gün önce",
+      "slides": [
+        {
+          "type": "cover",
+          "title": "2. ÜNİTE ÖZET",
+          "subtitle": "Elektrik ve Manyetizma",
+          "emoji": "📝",
+          "tagline": "Sınav öncesi son tekrar!"
+        },
+        {
+          "type": "content",
+          "title": "Sınav Tuzakları ⚠️",
+          "icon": "⚠️",
+          "points": [
+            "❌ 'Yönü değişmeyen akım = alternatif akım' → YANLIŞ (DC'dir!)",
+            "❌ 'Sığacın kapasitesi = empedans' → YANLIŞ (kapasitans!)",
+            "✅ 'Tesla manyetik akı birimidir' → DOĞRU",
+            "✅ 'Rezonans: Xₗ = Xc durumudur' → DOĞRU"
+          ]
+        },
+        {
+          "type": "content",
+          "title": "Kilit Kavramlar 🗝️",
+          "icon": "🗝️",
+          "points": [
+            "İndüktans (L) → Bobinin enerji depolama kapasitesi, birimi Henry (H)",
+            "Kapasitans (C) → Sığacın yük depolama kapasitesi, birimi Farad (F)",
+            "Empedans (Z) → AC devresinde toplam direnç, birimi Ohm (Ω)",
+            "Rezonans → Xₗ = Xc anında empedans minimum, akım maksimum"
+          ]
+        },
+        {
+          "type": "comparison",
+          "title": "Transformatör Özeti",
+          "icon": "🔄",
+          "leftLabel": "Np > Ns (Alçaltıcı)",
+          "rightLabel": "Np < Ns (Yükseltici)",
+          "rows": [
+            {
+              "left": "Vs < Vp",
+              "right": "Vs > Vp"
+            },
+            {
+              "left": "Is > Ip",
+              "right": "Is < Ip"
+            },
+            {
+              "left": "Evlere giriş",
+              "right": "Santral çıkışı"
+            },
+            {
+              "left": "220 V",
+              "right": "400.000 V"
+            }
+          ]
+        },
+        {
+          "type": "content",
+          "title": "Hangi Cihaz Hangi Akım?",
+          "icon": "🔍",
+          "points": [
+            "🧊 Buzdolabı, çamaşır makinesi, klima → AC",
+            "📱 Bilgisayar, telefon, radyo, TV → DC",
+            "🚂 Tramvay, metro, elektromıknatıs → DC",
+            "⚙️ Güçlü motorlar, sokak lambaları → AC"
+          ]
+        },
+        {
+          "type": "quote",
+          "text": "Transformatörsüz modern hayat imkânsız!",
+          "subtext": "Elektriğin santralden evinize gelmesi, telefon şarjı, radyo... hepsi transformatör prensibine dayanır.",
+          "author": "2. Ünite Tamamlandı 🏆"
+        },
+        {
+          "type": "question",
+          "title": "SINAV SORUSU",
+          "icon": "🎯",
+          "question": "Aşağıdakilerden hangisinin içeriğinde transformatör BULUNMAZ?\nA) Akü  B) Cep telefonu şarj cihazı  C) Elektrik santralleri  D) Masa lambası  E) Radyo adaptörü",
+          "hint": "İpucu: Transformatör AC ile çalışır, DC üreten cihazlara bakar!"
         }
       ]
     }
