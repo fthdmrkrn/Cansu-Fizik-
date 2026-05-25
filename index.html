@@ -1242,7 +1242,7 @@
   </div>
 </div>
 
-<script>
+<script type="module">
   // ============ STATE ============
   let DATA = null;
   let currentPostSlides = {}; // post_id -> current slide index
@@ -1296,6 +1296,12 @@
     renderExplore();
     renderReels();
     renderProfile();
+    // Firebase: giriş kontrolü ve dinleyicileri başlat
+    if (checkLogin()) {
+      initFirebaseListeners();
+    } else {
+      showLoginScreen();
+    }
   }
 
   // ============ STORIES ============
@@ -1384,8 +1390,8 @@
         </div>
         <div class="post-actions">
           <div class="left-icons">
-            <button onclick="toggleLike(this)" title="Beğen">🤍</button>
-            <button title="Yorum">💬</button>
+            <button class="like-btn" onclick="toggleLike(this)" title="Beğen">🤍</button>
+            <button onclick="openComments(post.id.replace('post-',''))" title="Yorum" style="position:relative;">💬<span class="comment-count" style="position:absolute;top:-4px;right:-4px;background:#ed4956;color:white;border-radius:50%;font-size:9px;padding:1px 4px;min-width:14px;text-align:center;font-weight:700;"></span></button>
             <button title="Paylaş">📤</button>
           </div>
           <button title="Kaydet">🔖</button>
@@ -1566,18 +1572,192 @@
     });
   }
 
+  // ============ FIREBASE ============
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+  import { getDatabase, ref, set, get, update, increment, onValue, push, serverTimestamp }
+    from "https://www.gstatic.com/firebasejs/12.13.0/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyD25qJvAdXRmvbmjh3TASoQm_1j-dZ_vvU",
+    authDomain: "instafizik.firebaseapp.com",
+    databaseURL: "https://instafizik-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "instafizik",
+    storageBucket: "instafizik.firebasestorage.app",
+    messagingSenderId: "326872892822",
+    appId: "1:326872892822:web:d4879559c684ffef8a49b7",
+    measurementId: "G-SX8ZHKTNDZ"
+  };
+  const fbApp = initializeApp(firebaseConfig);
+  const db = getDatabase(fbApp);
+
+  const TEACHER_CODE = "CANSUHOCA";
+  let CURRENT_USER = null;
+
+  function getUserId() {
+    let id = localStorage.getItem('instafizik-uid');
+    if (!id) { id = 'u_' + Math.random().toString(36).substr(2,9); localStorage.setItem('instafizik-uid', id); }
+    return id;
+  }
+
+  // ============ GİRİŞ EKRANI ============
+  function showLoginScreen() {
+    const existing = document.getElementById('login-overlay');
+    if (existing) return;
+    const overlay = document.createElement('div');
+    overlay.id = 'login-overlay';
+    overlay.style.cssText = `position:absolute;inset:0;z-index:9999;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;gap:20px;border-radius:38px;`;
+    overlay.innerHTML = `
+      <div style="font-family:'Caveat',cursive;font-size:42px;font-weight:700;background:linear-gradient(45deg,#f09433,#dc2743,#bc1888);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;">InstaFizik</div>
+      <div style="font-family:'Bricolage Grotesque',sans-serif;font-size:22px;font-weight:700;color:var(--text);text-align:center;">Merhaba! 👋<br><span style="font-size:16px;font-weight:400;opacity:0.7;">Kendini tanıt, başlayalım</span></div>
+      <div style="width:100%;display:flex;flex-direction:column;gap:12px;">
+        <input id="login-name" type="text" placeholder="Adın (örn. Ayşe)" maxlength="20"
+          style="padding:14px 16px;border-radius:12px;border:1.5px solid var(--border);background:var(--bg-input);color:var(--text);font-size:16px;width:100%;font-family:'Inter',sans-serif;outline:none;"/>
+        <input id="login-class" type="text" placeholder="Sınıf kodu (örn. 11A)" maxlength="15"
+          style="padding:14px 16px;border-radius:12px;border:1.5px solid var(--border);background:var(--bg-input);color:var(--text);font-size:16px;width:100%;font-family:'Inter',sans-serif;outline:none;text-transform:uppercase;"/>
+        <div id="login-err" style="color:#ed4956;font-size:13px;min-height:18px;text-align:center;"></div>
+        <button id="login-btn" style="padding:14px;border-radius:12px;border:none;background:linear-gradient(135deg,#0095f6,#00b0f4);color:white;font-size:16px;font-weight:700;cursor:pointer;font-family:'Bricolage Grotesque',sans-serif;">
+          Giriş Yap ⚡
+        </button>
+      </div>
+      <div style="font-size:12px;color:var(--text-soft);text-align:center;line-height:1.6;">Şifre gerekmez 😊<br>Öğretmen girişi için özel kod gereklidir</div>
+    `;
+    document.querySelector('.phone').appendChild(overlay);
+    document.getElementById('login-class').addEventListener('input', e => { e.target.value = e.target.value.toUpperCase(); });
+    document.getElementById('login-btn').addEventListener('click', async () => {
+      const name = document.getElementById('login-name').value.trim();
+      const cls  = document.getElementById('login-class').value.trim().toUpperCase();
+      const err  = document.getElementById('login-err');
+      if (!name) { err.textContent = 'Adını yaz lütfen 🙏'; return; }
+      if (!cls)  { err.textContent = 'Sınıf kodunu yaz lütfen 🙏'; return; }
+      const isTeacher = (cls === TEACHER_CODE);
+      const uid = getUserId();
+      CURRENT_USER = { name, class: cls, id: uid, isTeacher };
+      localStorage.setItem('instafizik-user', JSON.stringify(CURRENT_USER));
+      try { await set(ref(db, `users/${uid}`), { name, class: cls, isTeacher, lastSeen: serverTimestamp() }); } catch(e){}
+      overlay.style.opacity = '0';
+      overlay.style.transition = 'opacity 0.3s';
+      setTimeout(() => { overlay.remove(); initFirebaseListeners(); }, 300);
+    });
+  }
+
+  function checkLogin() {
+    try {
+      const saved = localStorage.getItem('instafizik-user');
+      if (saved) { CURRENT_USER = JSON.parse(saved); return true; }
+    } catch(e) {}
+    return false;
+  }
+
+  // ============ GERÇEK ZAMANLI BEĞENİLER ============
+  function initFirebaseListeners() {
+    if (!DATA) return;
+    DATA.posts.forEach(post => {
+      onValue(ref(db, `likes/${post.id}/count`), snap => {
+        const count = snap.val() !== null ? snap.val() : post.likes;
+        const el = document.querySelector(`#post-${post.id} .post-likes`);
+        if (el) el.textContent = Number(count).toLocaleString("tr-TR") + " beğenme";
+      });
+      if (CURRENT_USER) {
+        onValue(ref(db, `likes/${post.id}/users/${CURRENT_USER.id}`), snap => {
+          const btn = document.querySelector(`#post-${post.id} .like-btn`);
+          if (!btn) return;
+          if (snap.val()) { btn.classList.add("liked"); btn.textContent = "❤️"; }
+          else            { btn.classList.remove("liked"); btn.textContent = "🤍"; }
+        });
+      }
+      onValue(ref(db, `comments/${post.id}`), snap => {
+        const count = snap.val() ? Object.keys(snap.val()).length : 0;
+        const el = document.querySelector(`#post-${post.id} .comment-count`);
+        if (el) el.textContent = count > 0 ? count : "";
+      });
+    });
+  }
+
   function toggleLike(btn) {
-    const liked = btn.classList.toggle('liked');
-    btn.textContent = liked ? '❤️' : '🤍';
+    if (!CURRENT_USER) { showLoginScreen(); return; }
+    const post = btn.closest('.post');
+    const postId = post.id.replace('post-', '');
+    const liked = btn.classList.contains('liked');
     btn.classList.add('pop');
     setTimeout(() => btn.classList.remove('pop'), 350);
-    // Beğeni sayısını güncelle
-    const post = btn.closest('.post');
-    const likesEl = post.querySelector('.post-likes');
-    let text = likesEl.textContent;
-    let cur = parseInt(text.replace(/\D/g, ''), 10) || 0;
-    cur += liked ? 1 : -1;
-    likesEl.textContent = cur.toLocaleString('tr-TR') + ' beğenme';
+    if (liked) {
+      set(ref(db, `likes/${postId}/users/${CURRENT_USER.id}`), null);
+      update(ref(db, `likes/${postId}`), { count: increment(-1) });
+    } else {
+      set(ref(db, `likes/${postId}/users/${CURRENT_USER.id}`), true);
+      update(ref(db, `likes/${postId}`), { count: increment(1) });
+    }
+  }
+
+  // ============ YORUM SİSTEMİ ============
+  function openComments(postId) {
+    if (!CURRENT_USER) { showLoginScreen(); return; }
+    const existing = document.getElementById('comment-sheet');
+    if (existing) existing.remove();
+    const sheet = document.createElement('div');
+    sheet.id = 'comment-sheet';
+    sheet.style.cssText = `position:absolute;bottom:0;left:0;right:0;z-index:5000;background:var(--bg);border-radius:20px 20px 0 0;box-shadow:0 -4px 30px rgba(0,0,0,0.2);display:flex;flex-direction:column;max-height:75%;min-height:300px;animation:slideUp 0.3s ease;`;
+    const initials = CURRENT_USER.name.charAt(0).toUpperCase();
+    sheet.innerHTML = `
+      <style>@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}</style>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 16px 12px;border-bottom:1px solid var(--border);">
+        <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:16px;color:var(--text);">💬 Yorumlar & Sorular</div>
+        <button onclick="document.getElementById('comment-sheet').remove()" style="background:none;border:none;font-size:24px;cursor:pointer;color:var(--text);">×</button>
+      </div>
+      <div id="comments-list" style="flex:1;overflow-y:auto;padding:12px 16px;display:flex;flex-direction:column;gap:14px;">
+        <div style="text-align:center;color:var(--text-soft);font-size:13px;padding:20px;">Yükleniyor...</div>
+      </div>
+      <div style="padding:12px 16px;border-top:1px solid var(--border);display:flex;gap:10px;align-items:center;">
+        <div style="width:34px;height:34px;border-radius:50%;background:${CURRENT_USER.isTeacher ? 'linear-gradient(135deg,#f09433,#dc2743)' : 'linear-gradient(135deg,#667eea,#764ba2)'};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:white;flex-shrink:0;">${initials}</div>
+        <input id="comment-input" type="text" placeholder="Yorum yaz veya soru sor..." maxlength="200"
+          style="flex:1;padding:10px 14px;border-radius:22px;border:1.5px solid var(--border);background:var(--bg-input);color:var(--text);font-size:14px;font-family:'Inter',sans-serif;outline:none;"/>
+        <button id="comment-send" style="background:none;border:none;font-size:22px;cursor:pointer;color:var(--accent);">➤</button>
+      </div>
+    `;
+    document.querySelector('.phone').appendChild(sheet);
+    loadComments(postId);
+    document.getElementById('comment-send').addEventListener('click', () => sendComment(postId));
+    document.getElementById('comment-input').addEventListener('keydown', e => { if(e.key==='Enter') sendComment(postId); });
+  }
+
+  function loadComments(postId) {
+    const list = document.getElementById('comments-list');
+    onValue(ref(db, `comments/${postId}`), snap => {
+      if (!list || !list.isConnected) return;
+      const data = snap.val();
+      if (!data) {
+        list.innerHTML = `<div style="text-align:center;color:var(--text-soft);font-size:13px;padding:30px;">Henüz yorum yok.<br>İlk yorumu sen yaz! 😊</div>`;
+        return;
+      }
+      const comments = Object.entries(data).map(([id,c])=>({id,...c})).sort((a,b)=>(a.ts||0)-(b.ts||0));
+      list.innerHTML = comments.map(c => `
+        <div style="display:flex;gap:10px;align-items:flex-start;">
+          <div style="width:34px;height:34px;border-radius:50%;background:${c.isTeacher ? 'linear-gradient(135deg,#f09433,#dc2743)' : 'linear-gradient(135deg,#667eea,#764ba2)'};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:white;flex-shrink:0;">${(c.name||'?').charAt(0).toUpperCase()}</div>
+          <div style="flex:1;background:var(--bg-input);padding:9px 12px;border-radius:14px;">
+            <div style="font-size:12px;color:var(--text-soft);margin-bottom:3px;">
+              <strong style="color:var(--text);">${c.name||'Anonim'}</strong>
+              ${c.isTeacher ? '<span style="color:#f97316;font-size:11px;margin-left:4px;">⭐ Öğretmen</span>' : ''}
+              <span style="margin-left:4px;">${c.class||''}</span>
+            </div>
+            <div style="font-size:14px;color:var(--text);line-height:1.4;">${c.text}</div>
+          </div>
+        </div>
+      `).join('');
+      list.scrollTop = list.scrollHeight;
+    });
+  }
+
+  async function sendComment(postId) {
+    const input = document.getElementById('comment-input');
+    const text = input.value.trim();
+    if (!text || !CURRENT_USER) return;
+    input.value = '';
+    try {
+      await push(ref(db, `comments/${postId}`), {
+        name: CURRENT_USER.name, class: CURRENT_USER.class,
+        isTeacher: CURRENT_USER.isTeacher || false, text, ts: Date.now()
+      });
+    } catch(e) { console.error('Yorum gönderilemedi', e); }
   }
 
   // ============ KEŞFET ============
