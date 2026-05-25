@@ -1763,21 +1763,21 @@
   // ============ KEŞFET ============
   function renderExplore() {
     const el = document.getElementById('explore-grid');
-    // Standart 11. sınıf fizik konuları
+    // Standart 11. sınıf fizik konuları — postId: DATA.posts içindeki ilk eşleşen postun id'si
     const allTopics = [
       { unit: '1. Ünite', title: 'Kuvvet ve Hareket', status: 'coming-soon', emoji: '🚀' },
       { unit: '1.1', title: 'Vektörler', status: 'coming-soon', emoji: '➡️' },
       { unit: '1.2', title: 'Bağıl Hareket', status: 'coming-soon', emoji: '🏃' },
-      { unit: '2. Ünite', title: 'Elektrik ve Manyetizma', status: 'active', emoji: '⚡' },
+      { unit: '2. Ünite', title: 'Elektrik ve Manyetizma', status: 'active', emoji: '⚡', topicId: 'alternatif-akim' },
       { unit: '2.1', title: 'Elektriksel Kuvvet', status: 'coming-soon', emoji: '🔌' },
-      { unit: '2.5', title: 'Alternatif Akım', status: 'active', emoji: '🌊', postIndex: 0 },
-      { unit: '2.6', title: 'Transformatörler', status: 'active', emoji: '🔄', postIndex: 6 },
+      { unit: '2.5', title: 'Alternatif Akım', status: 'active', emoji: '🌊', topicId: 'alternatif-akim' },
+      { unit: '2.6', title: 'Transformatörler', status: 'active', emoji: '🔄', topicId: 'transformator' },
       { unit: '3. Ünite', title: 'Dalgalar', status: 'coming-soon', emoji: '🌀' },
       { unit: '4. Ünite', title: 'Atom Fiziği', status: 'coming-soon', emoji: '⚛️' },
       { unit: '5. Ünite', title: 'Modern Fizik', status: 'coming-soon', emoji: '🌌' }
     ];
     el.innerHTML = allTopics.map((t, i) => `
-      <div class="explore-item ${t.status === 'coming-soon' ? 'locked' : ''}" ${t.status === 'active' ? `onclick="goToTopic('${t.title}')"` : ''}>
+      <div class="explore-item ${t.status === 'coming-soon' ? 'locked' : ''}" ${t.status === 'active' ? `onclick="goToTopic('${t.topicId}')"` : ''}>
         <div class="explore-unit">${t.unit}</div>
         <div>
           <div style="font-size: 26px; margin-bottom: 4px;">${t.emoji}</div>
@@ -1787,15 +1787,18 @@
     `).join('');
   }
 
-  function goToTopic(topicTitle) {
-    // Ana sayfaya dön, ilgili posta scroll yap
+  function goToTopic(topicId) {
+    // Ana sayfaya dön, ilgili konunun ilk postuna scroll yap
     document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
     document.querySelector('.nav-btn[data-page="feed"]').classList.add('active');
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById('page-feed').classList.add('active');
     setTimeout(() => {
-      const firstPost = document.querySelector('.post');
-      if (firstPost) firstPost.scrollIntoView({behavior:'smooth', block:'start'});
+      // topicId ile eşleşen ilk postu bul
+      const matchingPost = DATA.posts.find(p => p.topicId === topicId);
+      const targetId = matchingPost ? 'post-' + matchingPost.id : null;
+      const targetEl = targetId ? document.getElementById(targetId) : document.querySelector('.post');
+      if (targetEl) targetEl.scrollIntoView({behavior: 'smooth', block: 'start'});
     }, 100);
   }
 
