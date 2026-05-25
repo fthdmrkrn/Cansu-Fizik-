@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- Ana arka plan gradyanı: Instagram'vari turuncu-pembe-mor -->
+    <linearGradient id="bgGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#f09433"/>
+      <stop offset="25%"  stop-color="#e6683c"/>
+      <stop offset="50%"  stop-color="#dc2743"/>
+      <stop offset="75%"  stop-color="#cc2366"/>
+      <stop offset="100%" stop-color="#bc1888"/>
+    </linearGradient>
+
+    <!-- Şimşek parlama efekti -->
+    <radialGradient id="glowGrad" cx="55%" cy="38%" r="45%">
+      <stop offset="0%"   stop-color="#ffffff" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Dalga çizgisi için mask -->
+    <clipPath id="roundClip">
+      <rect width="512" height="512" rx="112" ry="112"/>
+    </clipPath>
+  </defs>
+
+  <!-- Yuvarlatılmış köşeli arka plan -->
+  <rect width="512" height="512" rx="112" ry="112" fill="url(#bgGrad)"/>
+
+  <!-- Işıltı katmanı -->
+  <rect width="512" height="512" rx="112" ry="112" fill="url(#glowGrad)"/>
+
+  <!-- Dekoratif arka plan dalgası (AC sinyal eğrisi, hafif) -->
+  <g clip-path="url(#roundClip)" opacity="0.12">
+    <path d="M-20 320 Q 60 220 128 320 Q 196 420 256 320 Q 316 220 384 320 Q 452 420 532 320"
+          fill="none" stroke="white" stroke-width="28" stroke-linecap="round"/>
+    <path d="M-20 370 Q 60 270 128 370 Q 196 470 256 370 Q 316 270 384 370 Q 452 470 532 370"
+          fill="none" stroke="white" stroke-width="18" stroke-linecap="round"/>
+  </g>
+
+  <!-- === ANA İKON: Şimşek bolt (fizik / elektrik) === -->
+  <!-- Gölge / derinlik için hafif koyu bolt -->
+  <path d="M296 68 L176 272 L240 272 L216 444 L336 240 L272 240 Z"
+        fill="rgba(0,0,0,0.18)" transform="translate(6,8)"/>
+
+  <!-- Ana beyaz şimşek -->
+  <path d="M296 68 L176 272 L240 272 L216 444 L336 240 L272 240 Z"
+        fill="white"/>
+
+  <!-- Şimşeğe hafif gradient overlay — parlaklık hissi -->
+  <path d="M296 68 L176 272 L240 272 L216 444 L336 240 L272 240 Z"
+        fill="url(#boltGrad)"/>
+
+  <defs>
+    <linearGradient id="boltGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#ffffff" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Sol üst köşe: küçük sinyal dalgası aksanı -->
+  <g opacity="0.7">
+    <path d="M68 130 Q 88 108 108 130" fill="none" stroke="white" stroke-width="10" stroke-linecap="round"/>
+    <path d="M52 148 Q 88 100 124 148" fill="none" stroke="white" stroke-width="8"  stroke-linecap="round"/>
+  </g>
+
+  <!-- Sağ alt köşe: küçük sinyal dalgası aksanı -->
+  <g opacity="0.7">
+    <path d="M388 370 Q 408 348 428 370" fill="none" stroke="white" stroke-width="10" stroke-linecap="round"/>
+    <path d="M372 388 Q 408 340 444 388" fill="none" stroke="white" stroke-width="8"  stroke-linecap="round"/>
+  </g>
+</svg>
