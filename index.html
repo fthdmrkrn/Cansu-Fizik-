@@ -1112,7 +1112,7 @@
 
     <!-- Status Bar -->
     <div class="status-bar">
-      <span>9:41</span>
+      <span id="status-clock">9:41</span>
       <span class="right">
         <span>📶</span>
         <span>🔋</span>
@@ -1901,6 +1901,16 @@
 
   // ============ BAŞLAT ============
   loadData();
+
+  // Canlı saat — her 10 saniyede günceller
+  function updateClock() {
+    const now = new Date();
+    const h = now.getHours().toString().padStart(2, '0');
+    const m = now.getMinutes().toString().padStart(2, '0');
+    document.getElementById('status-clock').textContent = h + ':' + m;
+  }
+  updateClock();
+  setInterval(updateClock, 10000);
 </script>
 
 </body>
